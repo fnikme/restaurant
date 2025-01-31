@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 class HomeController extends AbstractController
 {
     #[Route('/')]
-    public function home() : Response
+    public function home(): Response
     {
-	return new Response('Bienvenue sur votre accueil!') ;
+        return new Response('Bienvenue sur votre accueil!');
     }
 }
