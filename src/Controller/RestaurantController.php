@@ -23,6 +23,8 @@ class RestaurantController extends AbstractController
         $restaurant->setDescription('Cette qualité et ce goût par le chef Arnaud MICHANT.');
         $restaurant->setCreatedAt(new \DateTimeImmutable());
 
+        $restaurant->setMaxGuest(50);
+
         $this->manager->persist($restaurant);
         $this->manager->flush();
 
@@ -35,7 +37,8 @@ class RestaurantController extends AbstractController
     #[Route('/{id}', name: 'show', methods: 'GET')]
     public function show(int $id): Response
     {
-        // $restaurant CHERCHER RESTAURANT ID = 1
+        $restaurant = $this->repository->findOneBy(['id' => $id]);
+
         if (!$restaurant) {
             throw $this->createAccessDeniedException(message: "No Restaurant fount for {$id} id");
         }
@@ -48,12 +51,13 @@ class RestaurantController extends AbstractController
     #[Route('/{id}', name: 'edit', methods: 'PUT')]
     public function edit(int $id): Response
     {
-        // $restaurant = CHERCHER RESTAURANT ID = 1
+        $restaurant = $this->repository->findOneBy(['id' => $id]);
         if (!$restaurant) {
             throw $this->createAccessDeniedException(message: "No Restaurant fount for {$id} id");
         }
 
         $restaurant->setName('Restaurant name update');
+        
         $this->manager->flush();
 
         return $this->redirectToRoute('app_api_restaurant_show', ['id' => $restaurant->getId()]);
@@ -62,7 +66,7 @@ class RestaurantController extends AbstractController
     #[Route('/{id}', name: 'delete', methods: 'DELETE')]
     public function delete(int $id): Response
     {
-        // $restaurant = CHERCHER RESTAURANT ID =
+        $restaurant = $this->repository->findOneBy(['id' => $id]);
         if (!$restaurant) {
             throw $this->createAccessDeniedException(message: "No Restaurant fount for {$id} id");
         }
