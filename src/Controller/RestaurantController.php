@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 #[Route('api/restaurant', name: 'app_api_restaurant_')]
@@ -55,7 +56,7 @@ class RestaurantController extends AbstractController
             return new JsonResponse($responseData, json: true);
         }
 
-        return new JsonResponse( data: null, satus: Response::HTTP_NOT_FOUND);
+        return new JsonResponse( data: null, status: Response::HTTP_NOT_FOUND);
     }
 
     #[Route('/{id}', name: 'edit', methods: 'PUT')]
@@ -73,10 +74,10 @@ class RestaurantController extends AbstractController
 
             $this->manager->flush();
 
-            return new JsonResponse( data: null, satus: Response::HTTP_NO_CONTENT);
+            return new JsonResponse( data: null, status: Response::HTTP_NO_CONTENT);
         }
 
-        return new JsonResponse( data: null, satus: Response::HTTP_NOT_FOUND);
+        return new JsonResponse( data: null, status: Response::HTTP_NOT_FOUND);
     }
 
     #[Route('/{id}', name: 'delete', methods: 'DELETE')]
@@ -87,9 +88,9 @@ class RestaurantController extends AbstractController
             $this->manager->remove($restaurant);
             $this->manager->flush();
 
-            return new JsonResponse( data: null, satus: Response::HTTP_NO_CONTENT);
+            return new JsonResponse( data: null, status: Response::HTTP_NO_CONTENT);
         }
 
-        return new JsonResponse( data: null, satus: Response::HTTP_NOT_FOUND);
+        return new JsonResponse( data: null, status: Response::HTTP_NOT_FOUND);
     }
 }
