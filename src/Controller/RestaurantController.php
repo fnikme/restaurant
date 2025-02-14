@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 
 #[Route('api/restaurant', name: 'app_api_restaurant_')]
@@ -71,7 +72,6 @@ class RestaurantController extends AbstractController
                 [AbstractNormalizer::OBJECT_TO_POPULATE => $restaurant]
             );
             $restaurant->setUpdatedAt(new DateTimeImmutable());
-
             $this->manager->flush();
 
             return new JsonResponse( data: null, status: Response::HTTP_NO_CONTENT);
