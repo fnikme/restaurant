@@ -10,6 +10,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use DateTimeImmutable;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 #[Route('/api', name: 'app_api_')]
 class SecurityController extends AbstractController
@@ -32,5 +33,19 @@ class SecurityController extends AbstractController
             ['user'  => $user->getUserIdentifier(), 'apiToken' => $user->getApiToken(), 'roles' => $user->getRoles()],
             Response::HTTP_CREATED
         );
+    }
+
+    #[Route('/login', name: 'login', methods: 'POST')]
+    public function login(#[CurrentUser] ?User $user): JsonResponse
+    {
+        if (null === $user) {
+            return new JsonResponse(['message' => 'Missing credentials'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        return new JsonResponse([
+            'user'  => $user->getUserIdentifier(),
+            'apiToken' => $user->getApiToken(),
+            'roles' => $user->getRoles(),
+        ]);
     }
 }
