@@ -54,6 +54,21 @@ class RestaurantController extends AbstractController
      *     )
      * )
      */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function new(Request $request): JsonResponse
     {
         $restaurant = $this->serializer->deserialize($request->getContent(), type: Restaurant::class, format: 'json');
@@ -72,6 +87,13 @@ class RestaurantController extends AbstractController
 
         return new JsonResponse($responseData, status: Response::HTTP_CREATED, headers:["Location" => $location], json: true);
     }
+
+
+
+
+
+
+
 
     #[Route('/{id}', name: 'show', methods: 'GET')]
     /**
@@ -115,6 +137,38 @@ class RestaurantController extends AbstractController
     }
 
     #[Route('/{id}', name: 'edit', methods: 'PUT')]
+
+
+    /** @OA\Put(
+     *     path="/api/restaurant/{id}",
+     *     summary="Modifier un restaurant par ID",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID du restaurant à modifier",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Nouvelles données du restaurant à mettre à jour",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="name", type="string", example="Nouveau nom du restaurant"),
+     *             @OA\Property(property="description", type="string", example="Nouvelle description du restaurant")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="Restaurant modifié avec succès"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Restaurant non trouvé"
+     *     )
+     * )
+     */
+
     public function edit(int $id, Request $request): JsonResponse
     {
         $restaurant = $this->repository->findOneBy(['id' => $id]);
