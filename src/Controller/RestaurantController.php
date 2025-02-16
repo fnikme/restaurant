@@ -3,18 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\Restaurant;
-use App\Repository\RestaurantRepository;
 use DateTimeImmutable;
+use App\Repository\RestaurantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use OpenApi\Annotations as OA;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-
 
 #[Route('api/restaurant', name: 'app_api_restaurant_')]
 class RestaurantController extends AbstractController
@@ -28,6 +28,32 @@ class RestaurantController extends AbstractController
     }
     
     #[Route('', name: 'new', methods: ['GET', 'POST'])]
+    /**
+     *  @OA\Post(
+    *     path="/api/restaurant",
+     *     summary="Créer un restaurant",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Données du restaurant à créer",
+     *         @OA\JsonContent(
+     *          type="object",
+     *          @OA\Property(property="name", type="string", example="Nom du restaurant"),
+     *          @OA\Property(property="description", type="string", example="Description du restaurant"),
+     *       )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Restaurant créé avec succès",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="id", type="integer", example=1),
+     *             @OA\Property(property="name", type="string", example="Nom du restaurant"),
+     *             @OA\Property(property="description", type="string", example="Description du restaurant"),
+     *             @OA\Property(property="createdAt", type="string", format="date-time")
+     *         )
+     *     )
+     * )
+     */
     public function new(Request $request): JsonResponse
     {
         $restaurant = $this->serializer->deserialize($request->getContent(), type: Restaurant::class, format: 'json');
