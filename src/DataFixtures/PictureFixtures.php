@@ -18,11 +18,11 @@ class PictureFixtures extends Fixture implements DependentFixtureInterface
     {
         for ($i = 1; $i <= 20; $i++) {
             /** @var Restaurant $restaurant */
-            $restaurant = $this->getReference("restaurant" . random_int(1, 20));
+            $restaurant = $this->getReference("restaurant" . random_int(1, 20), Restaurant::class);
             $title = "Article n°$i";
 
             $picture = (new Picture())
-                ->setTitle($title)
+                ->setTile($title)
                 ->setSlug("slug")
                 ->setRestaurant($restaurant)
                 ->setCreatedAt(new DateTimeImmutable());
